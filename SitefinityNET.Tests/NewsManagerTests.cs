@@ -64,7 +64,7 @@ namespace SitefinityNET.Tests
 
             var item = manager.GetNewsItem(itemId);
 
-            Assert.AreEqual(itemId, (Guid)item.Id);
+            Assert.AreEqual(itemId, item.Id);
         }
 
         //[TestMethod]
@@ -97,7 +97,7 @@ namespace SitefinityNET.Tests
 
             var returnedItem = manager.CreateNewsItem(newSingleItem);
 
-            Assert.IsInstanceOfType((Guid)returnedItem.Id, typeof(Guid), "Did not return a valid Guid ID");
+            Assert.IsInstanceOfType(returnedItem.Id, typeof(Guid), "Did not return a valid Guid ID");
         }
     }
 }

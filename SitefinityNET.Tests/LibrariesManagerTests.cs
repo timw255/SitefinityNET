@@ -64,7 +64,7 @@ namespace SitefinityNET.Tests
 
             var item = manager.GetAlbum(itemId);
 
-            Assert.AreEqual(itemId, (Guid)item.Id);
+            Assert.AreEqual(itemId, item.Id);
         }
 
         [TestMethod]
@@ -79,7 +79,7 @@ namespace SitefinityNET.Tests
 
             var returnedItem = manager.CreateAlbum(newSingleItem);
 
-            Assert.IsInstanceOfType((Guid)returnedItem.Id, typeof(Guid), "Did not return a valid Guid ID");
+            Assert.IsInstanceOfType(returnedItem.Id, typeof(Guid), "Did not return a valid Guid ID");
         }
 
         [TestMethod]
@@ -104,7 +104,7 @@ namespace SitefinityNET.Tests
         public void ImageServiceWrapper_GetImages_WithFilter_ReturnsItems()
         {
             Dictionary<Utility.ContentFilter, string> filters = new Dictionary<Utility.ContentFilter, string>();
-            filters.Add(Utility.ContentFilter.TitleLike, "Test");
+            filters.Add(Utility.ContentFilter.TitleLike, "circles2");
 
             string filterString = Utility.BuildFilterString(filters);
 
@@ -135,7 +135,7 @@ namespace SitefinityNET.Tests
 
             var item = manager.GetImage(itemId);
 
-            Assert.AreEqual(itemId, (Guid)item.Id);
+            Assert.AreEqual(itemId, item.Id);
         }
 
         [TestMethod]
@@ -156,40 +156,18 @@ namespace SitefinityNET.Tests
 
             if (returnedItem.Id != Guid.Empty)
             {
-                Stream imageDataStream = DownloadRemoteImageFile("http://www.codemoar.com/images/default-source/demo/sitefinity-logo.png");
+                string imageUrl = "http://www.codemoar.com/images/default-source/demo/sitefinity-logo.png";
 
-                byte[] imageData = Utility.ReadFully(imageDataStream);
+                using (var webClient = new WebClient())
+                {
+                    byte[] imageBytes = webClient.DownloadData(imageUrl);
 
-                uploaded = manager.UploadContent(parentId, returnedItem.Id, imageData, "sitefinity-logo.png", "image/png");
+                    // Upload the file and tell Sitefinity which item it belongs to (via item.Id)
+                    uploaded = manager.UploadContent(parentId, returnedItem.Id, imageBytes, "sitefinity-logo.png", "image/png");
+                }
             }
 
             Assert.IsTrue(uploaded, "Did not upload sucessfully");
-        }
-
-        public static Stream DownloadRemoteImageFile(string uri)
-        {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
-            HttpWebResponse response;
-            try
-            {
-                response = (HttpWebResponse)request.GetResponse();
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-
-            if ((response.StatusCode == HttpStatusCode.OK ||
-                response.StatusCode == HttpStatusCode.Moved ||
-                response.StatusCode == HttpStatusCode.Redirect) &&
-                response.ContentType.StartsWith("image", StringComparison.OrdinalIgnoreCase))
-            {
-                Stream inputStream = response.GetResponseStream();
-
-                return inputStream;
-            }
-            else
-                return null;
         }
     }
 }

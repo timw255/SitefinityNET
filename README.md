@@ -43,7 +43,7 @@ sf.SignIn();
 
 Managers are the worker bees of this operation.
 
-Something to note: Currently, methods that begin with 'List' return 'List<dynamic>' so if you don't know exactly what property you're looking for, some debugging may be necessary.
+Something to note: Currently, manager methods that begin with 'List' return `List<dynamic>` so if you don't know exactly what property you're looking for, some debugging may be necessary.
 
 ```csharp
 LibrariesManager manager = new LibrariesManager(sf);
@@ -82,7 +82,7 @@ if (item.Id != Guid.Empty)
 	
 	using (var webClient = new WebClient())
 	{
-		byte[] imageBytes = webClient.DownloadData(someUrl);
+		byte[] imageBytes = webClient.DownloadData(imageUrl);
 
 		// Upload the file and tell Sitefinity which item it belongs to (via item.Id)
 		manager.UploadContent(parentId, item.Id, imageBytes, "sitefinity-logo.png", "image/png");

@@ -132,7 +132,8 @@ namespace SitefinityNET.Sitefinity.ServiceWrappers.ContentServices
             return false;
         }
 
-        public dynamic GetChildContent(Guid parentId, Guid contentId, string itemType, string parentItemType, string providerName, Guid newParentId, string version)
+        public T GetChildContent<T>(Guid parentId, Guid contentId, string itemType, string parentItemType, string providerName, Guid newParentId, string version)
+            where T : new()
         {
             RestRequest request = new RestRequest(_serviceUrl + "/parent/{parentId}/{contentId}/", Method.GET);
 
@@ -144,13 +145,11 @@ namespace SitefinityNET.Sitefinity.ServiceWrappers.ContentServices
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                JObject jsonVal = JObject.Parse(response.Content) as JObject;
-                dynamic jObject = jsonVal;
-                dynamic item = jObject.Item.ToObject<dynamic>();
-                return item;
+                T deserializedItem = JsonConvert.DeserializeObject<ItemContext<T>>(response.Content).Item;
+                return deserializedItem;
             }
 
-            return null;
+            return default(T);
         }
 
         public List<dynamic> GetChildrenContentItems(Guid parentId, string providerName, string itemType, string parentItemType, string filter, int skip, int take)
