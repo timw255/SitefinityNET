@@ -104,7 +104,7 @@ namespace SitefinityNET.Tests
         public void ImageServiceWrapper_GetImages_WithFilter_ReturnsItems()
         {
             Dictionary<Utility.ContentFilter, string> filters = new Dictionary<Utility.ContentFilter, string>();
-            filters.Add(Utility.ContentFilter.TitleLike, "circles2");
+            filters.Add(Utility.ContentFilter.TitleLike, "Test");
 
             string filterString = Utility.BuildFilterString(filters);
 
@@ -156,11 +156,11 @@ namespace SitefinityNET.Tests
 
             if (returnedItem.Id != Guid.Empty)
             {
-                Stream imageDataStream = DownloadRemoteImageFile("http://www.codemoar.com/Sitefinity/WebsiteTemplates/CodeMoar/App_Themes/CodeMoar/images/features/circles2.png");
+                Stream imageDataStream = DownloadRemoteImageFile("http://www.codemoar.com/images/default-source/demo/sitefinity-logo.png");
 
                 byte[] imageData = Utility.ReadFully(imageDataStream);
 
-                uploaded = manager.UploadContent(parentId, returnedItem.Id, imageData, "circles2.png", "image/png");
+                uploaded = manager.UploadContent(parentId, returnedItem.Id, imageData, "sitefinity-logo.png", "image/png");
             }
 
             Assert.IsTrue(uploaded, "Did not upload sucessfully");
@@ -179,18 +179,11 @@ namespace SitefinityNET.Tests
                 return null;
             }
 
-            // Check that the remote file was found. The ContentType
-            // check is performed since a request for a non-existent
-            // image file might be redirected to a 404-page, which would
-            // yield the StatusCode "OK", even though the image was not
-            // found.
             if ((response.StatusCode == HttpStatusCode.OK ||
                 response.StatusCode == HttpStatusCode.Moved ||
                 response.StatusCode == HttpStatusCode.Redirect) &&
                 response.ContentType.StartsWith("image", StringComparison.OrdinalIgnoreCase))
             {
-
-                // the remote file was found, download it
                 Stream inputStream = response.GetResponseStream();
 
                 return inputStream;
