@@ -1,13 +1,9 @@
-﻿using RestSharp;
+﻿using Newtonsoft.Json;
+using RestSharp;
 using RestSharp.Contrib;
 using RestSharp.Deserializers;
 using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SitefinityNET
 {
@@ -41,21 +37,29 @@ namespace SitefinityNET
             this._username = username;
             this._password = password;
             this._baseUrl = baseUrl;
+
             this._restClient = new RestClient(baseUrl);
             this._restClient.CookieContainer = new CookieContainer();
             this._restClient.ClearHandlers();
             this._restClient.AddHandler("application/json", new JsonDeserializer());
         }
 
-        protected internal IRestResponse ExecuteRequest(IRestRequest request)
+        protected internal IRestResponse ExecuteRequest(IRestRequest request, bool isRetry = false)
         {
-            if (!IsAuthenticated)
-                throw new NotLoggedInException("Client not authenticated");
-
             IRestResponse response = _restClient.Execute(request);
 
-            if (response.StatusCode == HttpStatusCode.Unauthorized)
-                throw new UserAlreadyLoggedInException("User already logged in");
+            if (response.StatusCode == HttpStatusCode.Forbidden || response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                if (isRetry)
+                {
+                    throw new UserAlreadyLoggedInException("User already logged in");
+                }
+                else
+                {
+                    SelfLogout();
+                    ExecuteRequest(request, true);
+                }
+            }
 
             return response;
         }
@@ -63,18 +67,26 @@ namespace SitefinityNET
         public string GetSitefinityVersion()
         {
             var request = new RestRequest("Sitefinity/services/SitefinityProject.svc/Version", Method.GET);
+
             IRestResponse response = ExecuteRequest(request);
+
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                return response.Content;
+                return JsonConvert.DeserializeObject<string>(response.Content);
             }
+
             return null;
         }
 
+        /// <summary>
+        /// Sign in to Sitefinity
+        /// </summary>
         public void SignIn()
         {
             RestRequest request = new RestRequest("Sitefinity/Authenticate", Method.GET);
+
             IRestResponse response = _restClient.Execute(request);
+
             switch (response.StatusCode)
             {
                 case HttpStatusCode.OK:
@@ -92,10 +104,11 @@ namespace SitefinityNET
                     switch (response.StatusCode)
                     {
                         case HttpStatusCode.OK:
+                            if (response.ResponseUri.AbsolutePath == "/Sitefinity/SignOut/selflogout")
+                            {
+                                SelfLogout();
+                            }
                             this._isAuthenticated = true;
-                            break;
-                        case HttpStatusCode.Found:
-                            //this._isAuthenticated = true;
                             break;
                         case HttpStatusCode.Unauthorized:
                             throw new InvalidCredentialsException("Invalid username or password");
@@ -110,10 +123,27 @@ namespace SitefinityNET
             }
         }
 
+        public void SelfLogout()
+        {
+            RestRequest request = new RestRequest("Sitefinity/SignOut/selflogout?ReturnUrl=%2fSitefinity%2fdashboard", Method.POST);
+
+            request.AddParameter("__EVENTTARGET", "ctl04$ctl00$ctl00$ctl00$ctl00$ctl00$selfLogoutButton");
+            request.AddParameter("__EVENTARGUMENT", "");
+
+            IRestResponse response = _restClient.Execute(request);
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                this._isAuthenticated = false;
+            }
+        }
+
         public void SignOut()
         {
-            RestRequest request = new RestRequest("Sitefinity/SignOut?sts_signout=true&redirect_uri=", Method.GET);
+            RestRequest request = new RestRequest("Sitefinity/SignOut?sts_signout=true", Method.GET);
+
             IRestResponse response = ExecuteRequest(request);
+
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 this._isAuthenticated = false;
