@@ -37,7 +37,7 @@ namespace SitefinityNET.Tests
         }
 
         [TestMethod]
-        public void NewsServiceWrapper_GetNewsItems_ReturnsItems()
+        public void GetNewsItems_ReturnsItems()
         {
             var items = manager.ListNewsItems("", 0, 50);
 
@@ -45,7 +45,7 @@ namespace SitefinityNET.Tests
         }
 
         [TestMethod]
-        public void NewsServiceWrapper_GetNewsItems_WithFilter_ReturnsItems()
+        public void GetNewsItems_WithFilter_ReturnsItems()
         {
             Dictionary<SitefinityNET.Utility.ContentFilter, string> filters = new Dictionary<SitefinityNET.Utility.ContentFilter, string>();
             filters.Add(SitefinityNET.Utility.ContentFilter.TitleLike, "Test");
@@ -58,7 +58,7 @@ namespace SitefinityNET.Tests
         }
 
         [TestMethod]
-        public void NewsServiceWrapper_GetNewsItem_ReturnsCorrectItem()
+        public void GetNewsItem_ReturnsCorrectItem()
         {
             Guid itemId = Guid.Parse("dfa20bfd-13ef-6fb1-b1e0-ff0000cacdaa");
 
@@ -86,7 +86,7 @@ namespace SitefinityNET.Tests
         //}
 
         [TestMethod]
-        public void NewsServiceWrapper_CreateNewsItem_ReturnsNewItem()
+        public void CreateNewsItem_ReturnsNewItem()
         {
             var newSingleItem = new NewsItem();
 

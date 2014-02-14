@@ -36,7 +36,7 @@ namespace SitefinityNET.Tests
         }
 
         [TestMethod]
-        public void BlogsManager_ListBlogs_ReturnsItems()
+        public void ListBlogs_ReturnsItems()
         {
             var items = manager.ListBlogs("", 0, 50);
 
@@ -44,7 +44,7 @@ namespace SitefinityNET.Tests
         }
 
         [TestMethod]
-        public void BlogsManager_ListBlogs_WithFilter_ReturnsItems()
+        public void ListBlogs_WithFilter_ReturnsItems()
         {
             Dictionary<Utility.ContentFilter, string> filters = new Dictionary<Utility.ContentFilter, string>();
             filters.Add(Utility.ContentFilter.TitleEquals, "Test Blog");
@@ -57,7 +57,7 @@ namespace SitefinityNET.Tests
         }
 
         [TestMethod]
-        public void BlogsManager_GetBlog_ReturnsCorrectItem()
+        public void GetBlog_ReturnsCorrectItem()
         {
             Guid itemId = Guid.Parse("8f990bfd-13ef-6fb1-b1e0-ff0000cacdaa");
 
@@ -67,7 +67,7 @@ namespace SitefinityNET.Tests
         }
 
         [TestMethod]
-        public void BlogsManager_CreateBlog_ReturnsNewItem()
+        public void CreateBlog_ReturnsNewItem()
         {
             var newSingleItem = new Blog();
 
@@ -86,7 +86,7 @@ namespace SitefinityNET.Tests
         }
 
         [TestMethod]
-        public void BlogsManager_ListBlogPosts_ReturnsItems()
+        public void ListBlogPosts_ReturnsItems()
         {
             var items = manager.ListBlogPosts("", 0, 50);
 
@@ -94,7 +94,7 @@ namespace SitefinityNET.Tests
         }
 
         [TestMethod]
-        public void BlogsManager_ListBlogPosts_FromParentBlog_ReturnsItems()
+        public void ListBlogPosts_FromParentBlog_ReturnsItems()
         {
             Guid parentId = Guid.Parse("8f990bfd-13ef-6fb1-b1e0-ff0000cacdaa");
 
@@ -104,7 +104,7 @@ namespace SitefinityNET.Tests
         }
 
         [TestMethod]
-        public void BlogsManager_ListBlogPosts_WithFilter_ReturnsItems()
+        public void ListBlogPosts_WithFilter_ReturnsItems()
         {
             Dictionary<Utility.ContentFilter, string> filters = new Dictionary<Utility.ContentFilter, string>();
             filters.Add(Utility.ContentFilter.TitleLike, "Post");
@@ -117,7 +117,7 @@ namespace SitefinityNET.Tests
         }
 
         [TestMethod]
-        public void BlogsManager_ListBlogPosts_FromParentBlog_WithFilter_ReturnsItems()
+        public void ListBlogPosts_FromParentBlog_WithFilter_ReturnsItems()
         {
             Dictionary<Utility.ContentFilter, string> filters = new Dictionary<Utility.ContentFilter, string>();
             filters.Add(Utility.ContentFilter.TitleLike, "Post");
@@ -132,7 +132,7 @@ namespace SitefinityNET.Tests
         }
 
         [TestMethod]
-        public void BlogsManager_GetBlogPost_ReturnsCorrectItem()
+        public void GetBlogPost_ReturnsCorrectItem()
         {
             Guid itemId = Guid.Parse("479a0bfd-13ef-6fb1-b1e0-ff0000cacdaa");
 
@@ -142,7 +142,7 @@ namespace SitefinityNET.Tests
         }
 
         [TestMethod]
-        public void BlogsManager_CreateBlogPost_ReturnsNewItem()
+        public void CreateBlogPost_ReturnsNewItem()
         {
             var newSingleItem = new BlogPost();
 
@@ -160,11 +160,13 @@ namespace SitefinityNET.Tests
         }
 
         [TestMethod]
-        public void BlogsManager_ModifyBlogPost_UpdatesItemProperties()
+        public void ModifyBlogPost_UpdatesItemProperties()
         {
             Guid itemId = Guid.Parse("479a0bfd-13ef-6fb1-b1e0-ff0000cacdaa");
 
-            var item = manager.GetBlogPost(itemId);
+            BlogPost item = manager.GetBlogPost(itemId);
+
+            item.Summary = "New Summary " + DateTime.Now.ToString();
 
             Assert.AreEqual(itemId, item.Id);
         }

@@ -37,7 +37,7 @@ namespace SitefinityNET.Tests
         }
 
         [TestMethod]
-        public void AlbumServiceWrapper_GetAlbums_ReturnsItems()
+        public void GetAlbums_ReturnsItems()
         {
             var items = manager.ListAlbums("", 0, 50);
 
@@ -45,7 +45,7 @@ namespace SitefinityNET.Tests
         }
 
         [TestMethod]
-        public void AlbumServiceWrapper_GetAlbums_WithFilter_ReturnsItems()
+        public void GetAlbums_WithFilter_ReturnsItems()
         {
             Dictionary<Utility.ContentFilter, string> filters = new Dictionary<Utility.ContentFilter, string>();
             filters.Add(Utility.ContentFilter.TitleLike, "Default");
@@ -58,7 +58,7 @@ namespace SitefinityNET.Tests
         }
 
         [TestMethod]
-        public void AlbumServiceWrapper_GetAlbum_ReturnsCorrectItem()
+        public void GetAlbum_ReturnsCorrectItem()
         {
             Guid itemId = Guid.Parse("4ba7ad46-f29b-4e65-be17-9bf7ce5ba1fb");
 
@@ -68,7 +68,7 @@ namespace SitefinityNET.Tests
         }
 
         [TestMethod]
-        public void AlbumServiceWrapper_CreateAlbum_ReturnsNewItem()
+        public void CreateAlbum_ReturnsNewItem()
         {
             var newSingleItem = new Album();
 
@@ -83,7 +83,7 @@ namespace SitefinityNET.Tests
         }
 
         [TestMethod]
-        public void ImageServiceWrapper_GetImages_ReturnsItems()
+        public void GetImages_ReturnsItems()
         {
             var items = manager.ListImages("", 0, 50);
 
@@ -91,7 +91,7 @@ namespace SitefinityNET.Tests
         }
 
         [TestMethod]
-        public void ImageServiceWrapper_GetImages_FromParent_ReturnsItems()
+        public void GetImages_FromParent_ReturnsItems()
         {
             Guid parentId = Guid.Parse("4ba7ad46-f29b-4e65-be17-9bf7ce5ba1fb");
 
@@ -101,7 +101,7 @@ namespace SitefinityNET.Tests
         }
 
         [TestMethod]
-        public void ImageServiceWrapper_GetImages_WithFilter_ReturnsItems()
+        public void GetImages_WithFilter_ReturnsItems()
         {
             Dictionary<Utility.ContentFilter, string> filters = new Dictionary<Utility.ContentFilter, string>();
             filters.Add(Utility.ContentFilter.TitleLike, "circles2");
@@ -114,7 +114,7 @@ namespace SitefinityNET.Tests
         }
 
         [TestMethod]
-        public void ImageServiceWrapper_GetImages_FromParent_WithFilter_ReturnsItems()
+        public void GetImages_FromParent_WithFilter_ReturnsItems()
         {
             Dictionary<Utility.ContentFilter, string> filters = new Dictionary<Utility.ContentFilter, string>();
             filters.Add(Utility.ContentFilter.TitleLike, "circles2");
@@ -129,7 +129,7 @@ namespace SitefinityNET.Tests
         }
 
         [TestMethod]
-        public void ImageServiceWrapper_GetImage_ReturnsCorrectItem()
+        public void GetImage_ReturnsCorrectItem()
         {
             Guid itemId = Guid.Parse("639e0bfd-13ef-6fb1-b1e0-ff0000cacdaa");
 
@@ -139,7 +139,7 @@ namespace SitefinityNET.Tests
         }
 
         [TestMethod]
-        public void ImageServiceWrapper_CreateImage_ReturnsNewItem()
+        public void CreateImage_ReturnsNewItem()
         {
             var newSingleItem = new Image();
 

@@ -12,7 +12,18 @@ namespace SitefinityNET.Tests
     [TestClass]
     public class SitefinityClientTests
     {
-        private SitefinityClient sf;
+        private static SitefinityClient sf;
+        private static string username;
+        private static string password;
+        private static string url;
+
+        [ClassInitialize()]
+        public static void Initialize(TestContext testContext)
+        {
+            username = ConfigurationManager.AppSettings["Username"];
+            password = ConfigurationManager.AppSettings["Password"];
+            url = ConfigurationManager.AppSettings["SiteUrl"];
+        }
 
         [TestCleanup()]
         public void Cleanup()
@@ -24,7 +35,7 @@ namespace SitefinityNET.Tests
         }
 
         [TestMethod]
-        public void SitefinityClient_SignIn_WithValidCredentials_ReturnsToken()
+        public void SignIn_WithValidCredentials_ReturnsToken()
         {
             string username = ConfigurationManager.AppSettings["Username"];
             string password = ConfigurationManager.AppSettings["Password"];
@@ -39,7 +50,7 @@ namespace SitefinityNET.Tests
 
         [TestMethod]
         [ExpectedException(typeof(InvalidCredentialsException), "Invalid username or password suceeded")]
-        public void SitefinityClient_SignIn_WithInvalidCredentials_ThrowsException()
+        public void SignIn_WithInvalidCredentials_ThrowsException()
         {
             string url = ConfigurationManager.AppSettings["SiteUrl"];
 
