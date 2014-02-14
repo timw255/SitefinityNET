@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SitefinityNET", "SitefinityNET\SitefinityNET.csproj", "{35629F87-FB14-4ECF-9C3F-D9F52AA69961}"
@@ -6,18 +6,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SitefinityNET.Tests", "SitefinityNET.Tests\SitefinityNET.Tests.csproj", "{7B8F16DD-26FD-42B2-886C-EBA2BB2967DE}"
 EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 3
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://timw255.visualstudio.com/defaultcollection
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = SitefinityNET.Tests\\SitefinityNET.Tests.csproj
-		SccProjectName1 = SitefinityNET.Tests
-		SccLocalPath1 = SitefinityNET.Tests
-		SccProjectUniqueName2 = SitefinityNET\\SitefinityNET.csproj
-		SccProjectName2 = SitefinityNET
-		SccLocalPath2 = SitefinityNET
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
