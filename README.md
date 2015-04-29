@@ -1,4 +1,6 @@
 ﻿# Sitefinity.NET - .NET REST Client for Telerik Sitefinity CMS
+﻿
+﻿(This is only kept here for reference. Version 2 of this can be found at [https://github.com/timw255/timw255.Sitefinity.RestClient](https://github.com/timw255/timw255.Sitefinity.RestClient))
 
 **_Got an idea or better way to do something? I welcome pull requests. Please send them. :)_**
 
